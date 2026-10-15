@@ -1,0 +1,105 @@
+{
+  "tenantId": "pg.karjat",
+  "moduleName": "egov-location",
+  "TenantBoundary": [
+    {
+      "hierarchyType": {
+        "code": "REVENUE",
+        "name": "REVENUE"
+      },
+      "boundary": {
+        "id": 1,
+        "boundaryNum": 1,
+        "name": "Karjat",
+        "localname": "Karjat",
+        "longitude": 73.3209,
+        "latitude": 18.9116,
+        "label": "City",
+        "code": "pg.karjat",
+        "children": [
+          {
+            "id": "kjt-zone-1",
+            "boundaryNum": 1,
+            "name": "ZONE_CENTRAL",
+            "localname": "ZONE_CENTRAL",
+            "longitude": null,
+            "latitude": null,
+            "label": "Zone",
+            "code": "KJTZN1",
+            "children": [
+              {
+                "id": "kjt-ward-1",
+                "boundaryNum": 1,
+                "name": "WARD_1",
+                "localname": "WARD_1",
+                "longitude": null,
+                "latitude": null,
+                "label": "Block",
+                "code": "KJTW1",
+                "children": [
+                  {
+                    "id": "kjt-loc-1",
+                    "boundaryNum": 1,
+                    "name": "Station Road",
+                    "localname": "Station Road",
+                    "longitude": 73.3209,
+                    "latitude": 18.9116,
+                    "label": "Locality",
+                    "code": "KJT001",
+                    "pincode": [410201],
+                    "area": "Area1",
+                    "children": []
+                  },
+                  {
+                    "id": "kjt-loc-2",
+                    "boundaryNum": 1,
+                    "name": "Market Area",
+                    "localname": "Market Area",
+                    "longitude": 73.3220,
+                    "latitude": 18.9125,
+                    "label": "Locality",
+                    "code": "KJT002",
+                    "pincode": [410201],
+                    "area": "Area1",
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "hierarchyType": {
+        "code": "ADMIN",
+        "name": "ADMIN"
+      },
+      "boundary": {
+        "id": 2,
+        "boundaryNum": 1,
+        "name": "Karjat",
+        "localname": "Karjat",
+        "longitude": 73.3209,
+        "latitude": 18.9116,
+        "label": "City",
+        "code": "pg.karjat",
+        "children": [
+          {
+            "id": "kjt-admin-loc-1",
+            "boundaryNum": 1,
+            "name": "Station Road",
+            "localname": "Station Road",
+            "longitude": 73.3209,
+            "latitude": 18.9116,
+            "label": "Locality",
+            "code": "KJT001",
+            "pincode": [410201],
+            "area": "Area1",
+            "children": []
+          }
+        ]
+      }
+    }
+  ]
+}
