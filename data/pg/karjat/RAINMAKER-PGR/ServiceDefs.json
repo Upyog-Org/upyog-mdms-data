@@ -1,0 +1,666 @@
+{
+  "tenantId": "pg.karjat",
+  "moduleName": "RAINMAKER-PGR",
+  "ServiceDefs": [
+    {
+      "serviceCode": "EFR",
+      "name": "Encroachment of fire refuge spaces in building",
+      "keywords": "encroachment, fire, refuge, spaces, building",
+      "department": "KJT_DEPT_ENCROACHMENT",
+      "slaHours": 336,
+      "menuPath": "Encroachment",
+      "active": true,
+      "order": 1
+    },
+    {
+      "serviceCode": "NWL",
+      "name": "Nuisance without license parlous restaurants Salons",
+      "keywords": "nuisance, license, parlous, restaurants, salons",
+      "department": "KJT_DEPT_NOC",
+      "slaHours": 336,
+      "menuPath": "NOC",
+      "active": true,
+      "order": 2
+    },
+    {
+      "serviceCode": "RROR",
+      "name": "Repairing and Resurfacing Of Roads",
+      "keywords": "repairing, resurfacing, roads",
+      "department": "DEPT_2",
+      "slaHours": 336,
+      "menuPath": "PWD",
+      "active": true,
+      "order": 3
+    },
+    {
+      "serviceCode": "SWS",
+      "name": "Shortage Of Water Supply",
+      "keywords": "shortage, water, supply",
+      "department": "DEPT_15",
+      "slaHours": 336,
+      "menuPath": "WaterDepartment",
+      "active": true,
+      "order": 4
+    },
+    {
+      "serviceCode": "UDR",
+      "name": "Unauthorized Digging of Roads",
+      "keywords": "unauthorized, digging, roads",
+      "department": "DEPT_2",
+      "slaHours": 336,
+      "menuPath": "PWD",
+      "active": true,
+      "order": 5
+    },
+    {
+      "serviceCode": "CRC",
+      "name": "Corruption Regarding",
+      "keywords": "corruption, regarding",
+      "department": "DEPT_38",
+      "slaHours": 336,
+      "menuPath": "Administration",
+      "active": true,
+      "order": 6
+    },
+    {
+      "serviceCode": "USEP",
+      "name": "Unauthorized storage of explosive in premises of shopfactories",
+      "keywords": "unauthorized, storage, explosive, premises, shopfactories",
+      "department": "KJT_DEPT_NOC",
+      "slaHours": 336,
+      "menuPath": "NOC",
+      "active": true,
+      "order": 7
+    },
+    {
+      "serviceCode": "WLTR",
+      "name": "Water Logging on the road",
+      "keywords": "water, logging, road",
+      "department": "DEPT_21",
+      "slaHours": 336,
+      "menuPath": "SolidWasteManagement",
+      "active": true,
+      "order": 8
+    },
+    {
+      "serviceCode": "FT",
+      "name": "Fallen tree",
+      "keywords": "fallen, tree",
+      "department": "DEPT_5",
+      "slaHours": 336,
+      "menuPath": "TreeDepartment",
+      "active": true,
+      "order": 9
+    },
+    {
+      "serviceCode": "AFN",
+      "name": "About Fire NOC",
+      "keywords": "about, fire, noc",
+      "department": "DEPT_24",
+      "slaHours": 336,
+      "menuPath": "FireDepartment",
+      "active": true,
+      "order": 10
+    },
+    {
+      "serviceCode": "IBAP",
+      "name": "Illegal banners advertisements on roads pedestrian roads",
+      "keywords": "illegal, banners, advertisements, roads, pedestrian",
+      "department": "KJT_DEPT_NOC",
+      "slaHours": 336,
+      "menuPath": "NOC",
+      "active": true,
+      "order": 11
+    },
+    {
+      "serviceCode": "ENMC",
+      "name": "Encroachment on Municipal Land Road Footpath Gutter",
+      "keywords": "encroachment, municipal, land, road, footpath, gutter",
+      "department": "KJT_DEPT_ENCROACHMENT",
+      "slaHours": 336,
+      "menuPath": "Encroachment",
+      "active": true,
+      "order": 12
+    },
+    {
+      "serviceCode": "SCCS",
+      "name": "Senior Citizen centre for social welfare",
+      "keywords": "senior, citizen, centre, social, welfare",
+      "department": "KJT_DEPT_SOCIALWELFARE",
+      "slaHours": 336,
+      "menuPath": "SocialWelfare",
+      "active": true,
+      "order": 13
+    },
+    {
+      "serviceCode": "ZC",
+      "name": "Zone Certificate",
+      "keywords": "zone, certificate",
+      "department": "DEPT_6",
+      "slaHours": 336,
+      "menuPath": "BuildingPermission",
+      "active": true,
+      "order": 14
+    },
+    {
+      "serviceCode": "NRF",
+      "name": "Non Reception of Financial Assistance for schemes",
+      "keywords": "non, reception, financial, assistance, schemes",
+      "department": "KJT_DEPT_SOCIALWELFARE",
+      "slaHours": 336,
+      "menuPath": "SocialWelfare",
+      "active": true,
+      "order": 15
+    },
+    {
+      "serviceCode": "VOHR",
+      "name": "Violation of Open Space of high rise building",
+      "keywords": "violation, open, space, high, rise, building",
+      "department": "DEPT_6",
+      "slaHours": 336,
+      "menuPath": "BuildingPermission",
+      "active": true,
+      "order": 16
+    },
+    {
+      "serviceCode": "AFMB",
+      "name": "Abandoned Furniture Material Found in Municipal Building",
+      "keywords": "abandoned, furniture, material, found, municipal, building",
+      "department": "KJT_DEPT_STORE",
+      "slaHours": 336,
+      "menuPath": "StoreDepartment",
+      "active": true,
+      "order": 17
+    },
+    {
+      "serviceCode": "ASND",
+      "name": "Applied for Assessment but still not done",
+      "keywords": "applied, assessment, still, done",
+      "department": "DEPT_33",
+      "slaHours": 336,
+      "menuPath": "PropertyDepartment",
+      "active": true,
+      "order": 18
+    },
+    {
+      "serviceCode": "OFT",
+      "name": "Oudour From Toilets",
+      "keywords": "oudour, toilets",
+      "department": "DEPT_16",
+      "slaHours": 336,
+      "menuPath": "Health",
+      "active": true,
+      "order": 19
+    },
+    {
+      "serviceCode": "RMPT",
+      "name": "Repairs and Maintenance Of public toilets",
+      "keywords": "repairs, maintenance, public, toilets",
+      "department": "DEPT_16",
+      "slaHours": 336,
+      "menuPath": "Health",
+      "active": true,
+      "order": 20
+    },
+    {
+      "serviceCode": "UHF",
+      "name": "Unauthorized Hawkers on Footpath",
+      "keywords": "unauthorized, hawkers, footpath",
+      "department": "KJT_DEPT_ENCROACHMENT",
+      "slaHours": 336,
+      "menuPath": "Encroachment",
+      "active": true,
+      "order": 21
+    },
+    {
+      "serviceCode": "PP",
+      "name": "Part Plan",
+      "keywords": "part, plan",
+      "department": "DEPT_6",
+      "slaHours": 336,
+      "menuPath": "BuildingPermission",
+      "active": true,
+      "order": 22
+    },
+    {
+      "serviceCode": "REP",
+      "name": "Repairing of Electric Pole",
+      "keywords": "repairing, electric, pole",
+      "department": "DEPT_1",
+      "slaHours": 336,
+      "menuPath": "ElectricDepartment",
+      "active": true,
+      "order": 23
+    },
+    {
+      "serviceCode": "NRWB",
+      "name": "No Receipt of Water Bills",
+      "keywords": "receipt, water, bills",
+      "department": "DEPT_15",
+      "slaHours": 336,
+      "menuPath": "WaterDepartment",
+      "active": true,
+      "order": 24
+    },
+    {
+      "serviceCode": "ZCR",
+      "name": "Zebra Cross Required",
+      "keywords": "zebra, cross, required",
+      "department": "DEPT_2",
+      "slaHours": 336,
+      "menuPath": "PWD",
+      "active": true,
+      "order": 25
+    },
+    {
+      "serviceCode": "TB",
+      "name": "Trimming of Branches",
+      "keywords": "trimming, branches",
+      "department": "DEPT_5",
+      "slaHours": 336,
+      "menuPath": "TreeDepartment",
+      "active": true,
+      "order": 26
+    },
+    {
+      "serviceCode": "PMT",
+      "name": "Permission for Mobile Tower",
+      "keywords": "permission, mobile, tower",
+      "department": "DEPT_6",
+      "slaHours": 336,
+      "menuPath": "BuildingPermission",
+      "active": true,
+      "order": 27
+    },
+    {
+      "serviceCode": "PLR",
+      "name": "Parking Line Required",
+      "keywords": "parking, line, required",
+      "department": "DEPT_38",
+      "slaHours": 336,
+      "menuPath": "Administration",
+      "active": true,
+      "order": 28
+    },
+    {
+      "serviceCode": "SCRG",
+      "name": "Sports Competition Related Grievances",
+      "keywords": "sports, competition, related, grievances",
+      "department": "KJT_DEPT_SPORTS",
+      "slaHours": 336,
+      "menuPath": "SportsDepartment",
+      "active": true,
+      "order": 29
+    },
+    {
+      "serviceCode": "SCDG",
+      "name": "Sports and Cultural Department related Grievance",
+      "keywords": "sports, cultural, department, related, grievance",
+      "department": "KJT_DEPT_SPORTS",
+      "slaHours": 336,
+      "menuPath": "SportsDepartment",
+      "active": true,
+      "order": 30
+    },
+    {
+      "serviceCode": "CC",
+      "name": "Commence Certificate",
+      "keywords": "commence, certificate",
+      "department": "DEPT_38",
+      "slaHours": 336,
+      "menuPath": "Administration",
+      "active": true,
+      "order": 31
+    },
+    {
+      "serviceCode": "OC",
+      "name": "Occupancy Certificate",
+      "keywords": "occupancy, certificate",
+      "department": "DEPT_6",
+      "slaHours": 336,
+      "menuPath": "BuildingPermission",
+      "active": true,
+      "order": 32
+    },
+    {
+      "serviceCode": "EIS",
+      "name": "Encroachment inside Society",
+      "keywords": "encroachment, inside, society",
+      "department": "KJT_DEPT_ENCROACHMENT",
+      "slaHours": 336,
+      "menuPath": "Encroachment",
+      "active": true,
+      "order": 33
+    },
+    {
+      "serviceCode": "DTBL",
+      "name": "Debris Debrege to be lifted",
+      "keywords": "debris, debrege, lifted",
+      "department": "DEPT_21",
+      "slaHours": 336,
+      "menuPath": "SolidWasteManagement",
+      "active": true,
+      "order": 34
+    },
+    {
+      "serviceCode": "RDB",
+      "name": "Rash Driving Of Buses",
+      "keywords": "rash, driving, buses",
+      "department": "KJT_DEPT_TRANSPORT",
+      "slaHours": 336,
+      "menuPath": "TransportDepartment",
+      "active": true,
+      "order": 35
+    },
+    {
+      "serviceCode": "CPWP",
+      "name": "Construction of Playground garden without any permission",
+      "keywords": "construction, playground, garden, permission",
+      "department": "KJT_DEPT_ENCROACHMENT",
+      "slaHours": 336,
+      "menuPath": "Encroachment",
+      "active": true,
+      "order": 36
+    },
+    {
+      "serviceCode": "BBC",
+      "name": "Buses in Bad Conditions",
+      "keywords": "buses, bad, conditions",
+      "department": "KJT_DEPT_TRANSPORT",
+      "slaHours": 336,
+      "menuPath": "TransportDepartment",
+      "active": true,
+      "order": 37
+    },
+    {
+      "serviceCode": "CRBF",
+      "name": "Conductor not refunded balance fare amount",
+      "keywords": "conductor, refunded, balance, fare, amount",
+      "department": "KJT_DEPT_TRANSPORT",
+      "slaHours": 336,
+      "menuPath": "TransportDepartment",
+      "active": true,
+      "order": 38
+    },
+    {
+      "serviceCode": "BRDB",
+      "name": "Buses running without destination board and number",
+      "keywords": "buses, running, destination, board, number",
+      "department": "KJT_DEPT_TRANSPORT",
+      "slaHours": 336,
+      "menuPath": "TransportDepartment",
+      "active": true,
+      "order": 39
+    },
+    {
+      "serviceCode": "RBS",
+      "name": "Regarding Bus Stop bus shelter",
+      "keywords": "regarding, bus, stop, shelter",
+      "department": "KJT_DEPT_TRANSPORT",
+      "slaHours": 336,
+      "menuPath": "TransportDepartment",
+      "active": true,
+      "order": 40
+    },
+    {
+      "serviceCode": "RBC",
+      "name": "Repairing of broken chambers",
+      "keywords": "repairing, broken, chambers",
+      "department": "DEPT_38",
+      "slaHours": 336,
+      "menuPath": "Administration",
+      "active": true,
+      "order": 41
+    },
+    {
+      "serviceCode": "SLWN",
+      "name": "Stopping leakage of sewage water in nalla",
+      "keywords": "stopping, leakage, sewage, water, nalla",
+      "department": "DEPT_21",
+      "slaHours": 336,
+      "menuPath": "SolidWasteManagement",
+      "active": true,
+      "order": 42
+    },
+    {
+      "serviceCode": "WAPT",
+      "name": "Wrong Assessment of Property Tax",
+      "keywords": "wrong, assessment, property, tax",
+      "department": "DEPT_33",
+      "slaHours": 336,
+      "menuPath": "PropertyDepartment",
+      "active": true,
+      "order": 43
+    },
+    {
+      "serviceCode": "PC",
+      "name": "Plinth Certificate",
+      "keywords": "plinth, certificate",
+      "department": "DEPT_6",
+      "slaHours": 336,
+      "menuPath": "BuildingPermission",
+      "active": true,
+      "order": 44
+    },
+    {
+      "serviceCode": "ATBP",
+      "name": "Addition Alteration in municipal building without permission",
+      "keywords": "addition, alteration, municipal, building, permission",
+      "department": "DEPT_6",
+      "slaHours": 336,
+      "menuPath": "BuildingPermission",
+      "active": true,
+      "order": 45
+    },
+    {
+      "serviceCode": "OPPT",
+      "name": "Online payment of property tax made but payment not posted",
+      "keywords": "online, payment, property, tax, posted",
+      "department": "DEPT_33",
+      "slaHours": 336,
+      "menuPath": "PropertyDepartment",
+      "active": true,
+      "order": 46
+    },
+    {
+      "serviceCode": "NAPT",
+      "name": "No Attendant at public toilets",
+      "keywords": "attendant, public, toilets",
+      "department": "DEPT_16",
+      "slaHours": 336,
+      "menuPath": "Health",
+      "active": true,
+      "order": 47
+    },
+    {
+      "serviceCode": "SLNW",
+      "name": "Street light not working",
+      "keywords": "street, light, working",
+      "department": "DEPT_1",
+      "slaHours": 336,
+      "menuPath": "ElectricDepartment",
+      "active": true,
+      "order": 48
+    },
+    {
+      "serviceCode": "DWB",
+      "name": "Dispute in Water Bill",
+      "keywords": "dispute, water, bill",
+      "department": "DEPT_15",
+      "slaHours": 336,
+      "menuPath": "WaterDepartment",
+      "active": true,
+      "order": 49
+    },
+    {
+      "serviceCode": "RWM",
+      "name": "Removal of water meter",
+      "keywords": "removal, water, meter",
+      "department": "DEPT_15",
+      "slaHours": 336,
+      "menuPath": "WaterDepartment",
+      "active": true,
+      "order": 50
+    },
+    {
+      "serviceCode": "OOT",
+      "name": "Overflow of Overhead tank",
+      "keywords": "overflow, overhead, tank",
+      "department": "DEPT_15",
+      "slaHours": 336,
+      "menuPath": "WaterDepartment",
+      "active": true,
+      "order": 51
+    },
+    {
+      "serviceCode": "POR",
+      "name": "Potholes On Roads",
+      "keywords": "potholes, roads",
+      "department": "DEPT_2",
+      "slaHours": 336,
+      "menuPath": "PWD",
+      "active": true,
+      "order": 52
+    },
+    {
+      "serviceCode": "SSLN",
+      "name": "Starting street lights during nights",
+      "keywords": "starting, street, lights, during, nights",
+      "department": "DEPT_1",
+      "slaHours": 336,
+      "menuPath": "ElectricDepartment",
+      "active": true,
+      "order": 53
+    },
+    {
+      "serviceCode": "CPAP",
+      "name": "Collection point not attended properly",
+      "keywords": "collection, point, attended, properly",
+      "department": "DEPT_21",
+      "slaHours": 336,
+      "menuPath": "SolidWasteManagement",
+      "active": true,
+      "order": 54
+    },
+    {
+      "serviceCode": "MON",
+      "name": "Mosquito Nuisance",
+      "keywords": "mosquito, nuisance",
+      "department": "DEPT_16",
+      "slaHours": 336,
+      "menuPath": "Health",
+      "active": true,
+      "order": 55
+    },
+    {
+      "serviceCode": "PRGS",
+      "name": "Pensioners Related Grievances For School Staff",
+      "keywords": "pensioners, related, grievances, school, staff",
+      "department": "KJT_DEPT_SCHOOL",
+      "slaHours": 336,
+      "menuPath": "School",
+      "active": true,
+      "order": 56
+    },
+    {
+      "serviceCode": "TRG",
+      "name": "Staff Teacher related Grievances",
+      "keywords": "staff, teacher, related, grievances",
+      "department": "KJT_DEPT_SCHOOL",
+      "slaHours": 336,
+      "menuPath": "School",
+      "active": true,
+      "order": 57
+    },
+    {
+      "serviceCode": "WLBT",
+      "name": "Wrong Assessment of LBT Tax",
+      "keywords": "wrong, assessment, lbt, tax",
+      "department": "DEPT_33",
+      "slaHours": 336,
+      "menuPath": "PropertyDepartment",
+      "active": true,
+      "order": 58
+    },
+    {
+      "serviceCode": "SM",
+      "name": "Stock Of Material",
+      "keywords": "stock, material",
+      "department": "KJT_DEPT_STORE",
+      "slaHours": 336,
+      "menuPath": "StoreDepartment",
+      "active": true,
+      "order": 59
+    },
+    {
+      "serviceCode": "RWND",
+      "name": "Road sweeping not done",
+      "keywords": "road, sweeping, done",
+      "department": "DEPT_21",
+      "slaHours": 336,
+      "menuPath": "SolidWasteManagement",
+      "active": true,
+      "order": 60
+    },
+    {
+      "serviceCode": "PL",
+      "name": "Pipeline Leakage",
+      "keywords": "pipeline, leakage",
+      "department": "DEPT_15",
+      "slaHours": 336,
+      "menuPath": "WaterDepartment",
+      "active": true,
+      "order": 61
+    },
+    {
+      "serviceCode": "RDM",
+      "name": "Damaged or Open Manhole",
+      "keywords": "damaged, open, manhole",
+      "department": "DEPT_2",
+      "slaHours": 336,
+      "menuPath": "PWD",
+      "active": true,
+      "order": 62
+    },
+    {
+      "serviceCode": "DDS",
+      "name": "Damaged Drain Slab",
+      "keywords": "damaged, drain, slab",
+      "department": "DEPT_21",
+      "slaHours": 336,
+      "menuPath": "SolidWasteManagement",
+      "active": true,
+      "order": 63
+    },
+    {
+      "serviceCode": "VFS",
+      "name": "Violation of Fire Safety",
+      "keywords": "violation, fire, safety",
+      "department": "DEPT_24",
+      "slaHours": 336,
+      "menuPath": "FireDepartment",
+      "active": true,
+      "order": 64
+    },
+    {
+      "serviceCode": "SWM_01",
+      "name": "घंटागाडी येत नसल्याबाबत",
+      "keywords": "",
+      "department": "DEPT_21",
+      "slaHours": 336,
+      "menuPath": "SolidWasteManagement",
+      "active": true,
+      "order": 65
+    },
+    {
+      "serviceCode": "SWM_02",
+      "name": "सार्वजनिक ठिकाणावरील कचरा उचलला नसल्याबाबत",
+      "keywords": "",
+      "department": "DEPT_21",
+      "slaHours": 336,
+      "menuPath": "SolidWasteManagement",
+      "active": true,
+      "order": 66
+    }
+  ]
+}

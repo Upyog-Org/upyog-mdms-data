@@ -399,6 +399,43 @@
           },
           "address": "Ram Nagar Near Railway Colony No. 21, Patiala, Punjab 140103",
           "contactNumber": "0177 280 2771"
+        },
+        {
+          "code": "pg.karjat",
+          "name": "Karjat Municipal Council",
+          "description": "Karjat Nagar Parishad, Raigad (demo city on same cluster)",
+          "pincode": [410201],
+          "logoId": "https://in-egov-assets.s3.ap-south-1.amazonaws.com/in.citya/logo.png",
+          "IdCardLogo": "https://in-egov-assets.s3.ap-south-1.amazonaws.com/images/Upyog-logo.png",
+          "imageId": null,
+          "domainUrl": "https://www.enagariseva.com",
+          "type": "CITY",
+          "twitterUrl": null,
+          "facebookUrl": null,
+          "emailId": "karjatcouncil@gmail.com",
+          "OfficeTimings": {
+            "Mon - Fri": "10.00 AM - 5.00 PM",
+            "Sat": "10.00 AM - 1.00 PM"
+          },
+          "isPopular": false,
+          "city": {
+            "name": "Karjat",
+            "localName": "कर्जत",
+            "districtCode": "RAIGAD",
+            "districtName": "Raigad",
+            "districtTenantCode": "pg.karjat",
+            "regionName": "Konkan",
+            "ulbGrade": "Municipal Council",
+            "longitude": 73.3209,
+            "latitude": 18.9116,
+            "shapeFileLocation": null,
+            "captcha": null,
+            "code": "410201",
+            "ddrName": "Raigad"
+          },
+          "address": "Karjat Municipal Council, Taluka Karjat, Dist Raigad, Maharashtra - 410201",
+          "contactNumber": "02148-222033",
+          "helpLineNumber": "02148-222033"
         }
    ]
 }

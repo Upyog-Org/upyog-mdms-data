@@ -1,0 +1,91 @@
+{
+  "tenantId": "pg.karjat",
+  "moduleName": "common-masters",
+  "Department": [
+    {
+      "name": "Encroachment",
+      "code": "KJT_DEPT_ENCROACHMENT",
+      "active": true
+    },
+    {
+      "name": "NOC",
+      "code": "KJT_DEPT_NOC",
+      "active": true
+    },
+    {
+      "name": "Building & Roads",
+      "code": "DEPT_2",
+      "active": true
+    },
+    {
+      "name": "Engineering Branch (O&M - W&S)",
+      "code": "DEPT_15",
+      "active": true
+    },
+    {
+      "name": "General Branch",
+      "code": "DEPT_38",
+      "active": true
+    },
+    {
+      "name": "Sanitation Branch",
+      "code": "DEPT_21",
+      "active": true
+    },
+    {
+      "name": "Horticulture",
+      "code": "DEPT_5",
+      "active": true
+    },
+    {
+      "name": "Fire Brigade Department",
+      "code": "DEPT_24",
+      "active": true
+    },
+    {
+      "name": "Social Welfare",
+      "code": "KJT_DEPT_SOCIALWELFARE",
+      "active": true
+    },
+    {
+      "name": "Building Branch",
+      "code": "DEPT_6",
+      "active": true
+    },
+    {
+      "name": "Store Department",
+      "code": "KJT_DEPT_STORE",
+      "active": true
+    },
+    {
+      "name": "Property Tax Branch",
+      "code": "DEPT_33",
+      "active": true
+    },
+    {
+      "name": "Health Branch",
+      "code": "DEPT_16",
+      "active": true
+    },
+    {
+      "name": "Street Lights",
+      "code": "DEPT_1",
+      "active": true
+    },
+    {
+      "name": "Sports Department",
+      "code": "KJT_DEPT_SPORTS",
+      "active": true
+    },
+    {
+      "name": "Transport Department",
+      "code": "KJT_DEPT_TRANSPORT",
+      "active": true
+    },
+    {
+      "name": "School",
+      "code": "KJT_DEPT_SCHOOL",
+      "active": true
+    }
+  ]
+}
