@@ -94,7 +94,7 @@
     "Department": {
       "masterName": "Department",
       "moduleDefinition": null,
-      "isStateLevel": true,
+      "isStateLevel": false,
       "uniqueKeys": [
         "$.code",
         "$.tenantId"
@@ -530,7 +530,7 @@
   "RAINMAKER-PGR": {
     "ServiceDefs": {
       "masterName": "ServiceDefs",
-      "isStateLevel": true,
+      "isStateLevel": false,
       "uniqueKeys": [
         "$.code"
       ]
