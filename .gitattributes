@@ -1,0 +1,3 @@
+# Store MDMS data byte-exact (files mix LF and CRLF; matches live egov-mdms-service export)
+data/** -text
+master-config.json -text
