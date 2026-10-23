@@ -1,0 +1,33 @@
+﻿apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sample-owner-cols
+  namespace: egov
+spec:
+  ttlSecondsAfterFinished: 90
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: psql
+        image: postgres:14
+        env:
+        - name: PGUSER
+          valueFrom: {secretKeyRef: {name: db, key: username}}
+        - name: PGPASSWORD
+          valueFrom: {secretKeyRef: {name: db, key: password}}
+        - name: PGHOST
+          value: upyog-postgres-prod.cf6umiugyga4.ap-south-1.rds.amazonaws.com
+        - name: PGPORT
+          value: "9878"
+        - name: PGDATABASE
+          value: main
+        - name: PGSSLMODE
+          value: require
+        command: ["bash","-c"]
+        args:
+        - |
+          psql -c "\d eg_pt_owner"
+          psql -c "SELECT o.ownerinfouuid, o.userid, o.ownertype, o.relationship, o.status, o.isprimaryowner FROM eg_pt_owner o JOIN eg_pt_property p ON p.id=o.propertyid WHERE p.propertyid='PG-PT-1013-000005';"
+          psql -c "SELECT doorno, street, city, pincode, locality FROM eg_pt_address a JOIN eg_pt_property p ON p.id=a.propertyid WHERE p.propertyid='PG-PT-1013-000005';"
+          psql -c "SELECT floorno, usagecategory, occupancytype, builtuparea, constructiontype, active FROM eg_pt_unit u JOIN eg_pt_property p ON p.id=u.propertyid WHERE p.propertyid='PG-PT-1013-000005';"

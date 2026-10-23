@@ -1,0 +1,97 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: load-karjat-dummy
+  namespace: egov
+spec:
+  ttlSecondsAfterFinished: 300
+  backoffLimit: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: psql
+          image: postgres:14
+          env:
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: username
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: password
+            - name: PGHOST
+              value: upyog-postgres-prod.cf6umiugyga4.ap-south-1.rds.amazonaws.com
+            - name: PGPORT
+              value: "9878"
+            - name: PGDATABASE
+              value: main
+            - name: PGSSLMODE
+              value: require
+          command:
+            - bash
+            - -c
+            - |
+              set -euo pipefail
+              echo "=== BEFORE: enagariseva pg.citya count ==="
+              psql -v ON_ERROR_STOP=1 -c "SELECT count(*) AS pg_citya_count FROM eg_pt_property WHERE tenantid = 'pg.citya';"
+
+              echo "=== INSERT Karjat dummy (skip if already present) ==="
+              psql -v ON_ERROR_STOP=1 -c "
+              INSERT INTO eg_pt_property (
+                id, propertyid, tenantid, accountid, oldpropertyid, status,
+                acknowldgementnumber, propertytype, ownershipcategory, usagecategory,
+                creationreason, nooffloors, landarea, superbuiltuparea,
+                source, channel, createdby, lastmodifiedby, createdtime, lastmodifiedtime,
+                additionaldetails
+              )
+              SELECT
+                'kjt-dummy-prop-0001',
+                'PG-PT-410201-DUMMY-0001',
+                'pg.karjat',
+                '00000000-0000-0000-0000-00000000kjt1',
+                'KJT-DUMMY-0001',
+                'ACTIVE',
+                'PG-AC-KJT-DUMMY-0001',
+                'BUILTUP.INDEPENDENTPROPERTY',
+                'INDIVIDUAL.SINGLEOWNER',
+                'RESIDENTIAL',
+                'CREATE',
+                1,
+                100.00,
+                60.00,
+                'MUNICIPAL_RECORDS',
+                'EMPLOYEE',
+                'karjat-dummy-seed',
+                'karjat-dummy-seed',
+                (EXTRACT(EPOCH FROM NOW()) * 1000)::bigint,
+                (EXTRACT(EPOCH FROM NOW()) * 1000)::bigint,
+                '{\"seedTag\":\"karjat-dummy\",\"note\":\"DUMMY - not real data\"}'::jsonb
+              WHERE NOT EXISTS (
+                SELECT 1 FROM eg_pt_property
+                WHERE tenantid = 'pg.karjat'
+                  AND oldpropertyid = 'KJT-DUMMY-0001'
+              );
+              "
+
+              echo "=== AFTER: Karjat dummy rows ==="
+              psql -v ON_ERROR_STOP=1 -c "
+              SELECT propertyid, tenantid, status, oldpropertyid
+              FROM eg_pt_property
+              WHERE tenantid = 'pg.karjat';
+              "
+
+              echo "=== AFTER: enagariseva pg.citya count (should be unchanged) ==="
+              psql -v ON_ERROR_STOP=1 -c "SELECT count(*) AS pg_citya_count FROM eg_pt_property WHERE tenantid = 'pg.citya';"
+
+              echo "=== SAFETY: dummy must NOT exist under other pg cities ==="
+              psql -v ON_ERROR_STOP=1 -c "
+              SELECT count(*) AS wrongly_in_other_cities
+              FROM eg_pt_property
+              WHERE tenantid IN ('pg.citya','pg.cityb','pg.cityc','pg.cityd','pg.citye')
+                AND oldpropertyid = 'KJT-DUMMY-0001';
+              "
+              echo "DONE"

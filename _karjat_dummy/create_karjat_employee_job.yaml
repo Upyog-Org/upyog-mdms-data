@@ -1,0 +1,172 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-karjat-employee
+  namespace: egov
+spec:
+  ttlSecondsAfterFinished: 300
+  backoffLimit: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: psql
+          image: postgres:14
+          env:
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: username
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: password
+            - name: PGHOST
+              value: upyog-postgres-prod.cf6umiugyga4.ap-south-1.rds.amazonaws.com
+            - name: PGPORT
+              value: "9878"
+            - name: PGDATABASE
+              value: main
+            - name: PGSSLMODE
+              value: require
+          command:
+            - bash
+            - -c
+            - |
+              set -euo pipefail
+
+              ENC_USER='354513|1ZJWrfTwXWgtrfvh1XFUOycQRGcJ1w=='
+              ENC_NAME='354513|1blwl8G13QuJsMUXGuTgQd2n4wK4L/3PceN7VUSMZucw'
+              ENC_MOBILE='354513|p+E7xJnxzWrtoZz4gwam5WQVdPflDtcJEbU='
+              NEW_UUID='a11c0001-4a01-4a01-b001-00000000a001'
+
+              echo "=== 1) Localization for Karjat city label ==="
+              psql -v ON_ERROR_STOP=1 -c "
+              INSERT INTO message (id, locale, code, message, tenantid, module, createdby, createddate)
+              SELECT md5(random()::text || clock_timestamp()::text), 'en_IN', 'TENANT_TENANTS_PG_KARJAT', 'Karjat Municipal Council', t.tenantid, 'rainmaker-common', 1, now()
+              FROM (VALUES ('pg'), ('pg.karjat')) AS t(tenantid)
+              WHERE NOT EXISTS (
+                SELECT 1 FROM message m
+                WHERE m.code='TENANT_TENANTS_PG_KARJAT' AND m.locale='en_IN' AND m.module='rainmaker-common' AND m.tenantid=t.tenantid
+              );
+              "
+
+              echo "=== 2) Create employee user KJTPT1 for pg.karjat (password copied from PTOFFICER1, not printed) ==="
+              psql -v ON_ERROR_STOP=1 -c "
+              DO \$\$
+              DECLARE
+                src RECORD;
+                new_id bigint;
+              BEGIN
+                SELECT * INTO src FROM eg_user WHERE id=101 AND tenantid='pg.citya';
+                IF NOT FOUND THEN
+                  RAISE EXCEPTION 'source PTOFFICER1 user id=101 not found';
+                END IF;
+
+                IF EXISTS (SELECT 1 FROM eg_user WHERE tenantid='pg.karjat' AND username='${ENC_USER}') THEN
+                  RAISE NOTICE 'KJTPT1 already exists for pg.karjat';
+                  RETURN;
+                END IF;
+
+                SELECT nextval('seq_eg_user') INTO new_id;
+
+                INSERT INTO eg_user (
+                  id, uuid, username, password, pwdexpirydate, mobilenumber, emailid,
+                  createddate, lastmodifieddate, createdby, lastmodifiedby, active, name, gender,
+                  type, version, accountlocked, tenantid, locale, dob
+                ) VALUES (
+                  new_id,
+                  '${NEW_UUID}',
+                  '${ENC_USER}',
+                  src.password,
+                  NOW() + interval '5 years',
+                  '${ENC_MOBILE}',
+                  NULL,
+                  NOW(), NOW(), 1, 1, true,
+                  '${ENC_NAME}',
+                  COALESCE(src.gender, 1),
+                  'EMPLOYEE', 0, false,
+                  'pg.karjat',
+                  'en_IN',
+                  src.dob
+                );
+
+                INSERT INTO eg_userrole_v1 (role_code, role_tenantid, user_id, user_tenantid, lastmodifieddate)
+                VALUES
+                  ('EMPLOYEE', 'pg.karjat', new_id, 'pg.karjat', NOW()),
+                  ('PT_DOC_VERIFIER', 'pg.karjat', new_id, 'pg.karjat', NOW()),
+                  ('PT_CEMP', 'pg.karjat', new_id, 'pg.karjat', NOW()),
+                  ('PT_COLLECTION_EMP', 'pg.karjat', new_id, 'pg.karjat', NOW()),
+                  ('PT_FIELD_INSPECTOR', 'pg.karjat', new_id, 'pg.karjat', NOW()),
+                  ('PT_APPROVER', 'pg.karjat', new_id, 'pg.karjat', NOW());
+
+                INSERT INTO eg_hrms_employee (
+                  id, uuid, code, dateofappointment, employeestatus, employeetype, active,
+                  tenantid, createdby, createddate, lastmodifiedby, lastmodifieddate
+                ) VALUES (
+                  new_id,
+                  '${NEW_UUID}',
+                  'KJTPT1',
+                  (EXTRACT(EPOCH FROM NOW())*1000)::bigint,
+                  'EMPLOYED',
+                  'PERMANENT',
+                  true,
+                  'pg.karjat',
+                  '1',
+                  (EXTRACT(EPOCH FROM NOW())*1000)::bigint,
+                  '1',
+                  (EXTRACT(EPOCH FROM NOW())*1000)::bigint
+                )
+                ON CONFLICT (uuid) DO NOTHING;
+
+                INSERT INTO eg_hrms_jurisdiction (
+                  uuid, employeeid, hierarchy, boundarytype, boundary, tenantid,
+                  createdby, createddate, lastmodifiedby, lastmodifieddate, isactive
+                ) VALUES (
+                  'a11c0001-4a01-4a01-b002-00000000a002',
+                  '${NEW_UUID}',
+                  'REVENUE',
+                  'City',
+                  'pg.karjat',
+                  'pg.karjat',
+                  '1',
+                  (EXTRACT(EPOCH FROM NOW())*1000)::bigint,
+                  '1',
+                  (EXTRACT(EPOCH FROM NOW())*1000)::bigint,
+                  true
+                )
+                ON CONFLICT (uuid) DO NOTHING;
+
+                INSERT INTO eg_hrms_assignment (
+                  uuid, employeeid, department, designation, fromdate, todate,
+                  iscurrentassignment, tenantid, createdby, createddate, lastmodifiedby, lastmodifieddate, isactive
+                ) VALUES (
+                  'a11c0001-4a01-4a01-b003-00000000a003',
+                  '${NEW_UUID}',
+                  'DEPT_1',
+                  'DESIG_01',
+                  (EXTRACT(EPOCH FROM (NOW() - interval '30 days'))*1000)::bigint,
+                  NULL,
+                  true,
+                  'pg.karjat',
+                  '1',
+                  (EXTRACT(EPOCH FROM NOW())*1000)::bigint,
+                  '1',
+                  (EXTRACT(EPOCH FROM NOW())*1000)::bigint,
+                  true
+                )
+                ON CONFLICT (uuid) DO NOTHING;
+
+                RAISE NOTICE 'Created KJTPT1 id=%', new_id;
+              END
+              \$\$;
+              "
+
+              echo "=== 3) Verify (no secrets) ==="
+              psql -c "SELECT code, message, tenantid FROM message WHERE code='TENANT_TENANTS_PG_KARJAT' AND locale='en_IN';"
+              psql -c "SELECT id, uuid, tenantid, type, active FROM eg_user WHERE uuid='${NEW_UUID}';"
+              psql -c "SELECT role_code, role_tenantid FROM eg_userrole_v1 WHERE user_tenantid='pg.karjat' ORDER BY role_code;"
+              psql -c "SELECT code, tenantid, active FROM eg_hrms_employee WHERE code='KJTPT1';"
+              echo "DONE"

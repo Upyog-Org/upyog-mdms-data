@@ -1,0 +1,149 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fix-karjat-property
+  namespace: egov
+spec:
+  ttlSecondsAfterFinished: 300
+  backoffLimit: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: psql
+          image: postgres:14
+          env:
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: username
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: password
+            - name: PGHOST
+              value: upyog-postgres-prod.cf6umiugyga4.ap-south-1.rds.amazonaws.com
+            - name: PGPORT
+              value: "9878"
+            - name: PGDATABASE
+              value: main
+            - name: PGSSLMODE
+              value: require
+          command:
+            - bash
+            - -c
+            - |
+              set -euo pipefail
+              PROP_ID='kjt-dummy-prop-0001'
+              OWNER_UUID='a11c0001-4a01-4a01-b004-00000000a004'
+              OWNER_INFO='a11c0001-4a01-4a01-b005-00000000a005'
+              ADDR_ID='a11c0001-4a01-4a01-b006-00000000a006'
+              UNIT_ID='a11c0001-4a01-4a01-b007-00000000a007'
+              ENC_USER='354513|p+E7xJnxzWrtormZWIsPI5Km+koqyOtlo0k='
+              ENC_NAME='354513|2q1vkNnhsiyz9fhRN+zxTs4+Qopy2iNsHaTRSG/DqJ8kFA=='
+              ENC_MOBILE='354513|p+E7xJnxzWrtormZWIsPI5Km+koqyOtlo0k='
+              NOW_MS=$(psql -Atc "SELECT (EXTRACT(EPOCH FROM NOW())*1000)::bigint")
+
+              echo "=== Fix invalid accountid on property ==="
+              psql -v ON_ERROR_STOP=1 -c "
+                UPDATE eg_pt_property
+                SET accountid = '${OWNER_UUID}',
+                    lastmodifiedby = 'karjat-dummy-seed',
+                    lastmodifiedtime = ${NOW_MS}
+                WHERE id = '${PROP_ID}';
+              "
+
+              echo "=== Localization ULB grade ==="
+              psql -v ON_ERROR_STOP=1 -c "
+              INSERT INTO message (id, locale, code, message, tenantid, module, createdby, createddate)
+              SELECT md5(random()::text || clock_timestamp()::text), 'en_IN', 'ULBGRADE_MUNICIPAL_COUNCIL', 'Municipal Council', t.tenantid, 'rainmaker-common', 1, now()
+              FROM (VALUES ('pg'), ('pg.karjat')) AS t(tenantid)
+              WHERE NOT EXISTS (
+                SELECT 1 FROM message m
+                WHERE m.code='ULBGRADE_MUNICIPAL_COUNCIL' AND m.locale='en_IN'
+                  AND m.module='rainmaker-common' AND m.tenantid=t.tenantid
+              );
+              "
+
+              echo "=== Citizen owner user ==="
+              psql -v ON_ERROR_STOP=1 -c "
+              DO \$\$
+              DECLARE
+                new_id bigint;
+                src_pwd text;
+              BEGIN
+                IF EXISTS (SELECT 1 FROM eg_user WHERE uuid='${OWNER_UUID}') THEN
+                  RAISE NOTICE 'owner user exists';
+                  RETURN;
+                END IF;
+                SELECT password INTO src_pwd FROM eg_user WHERE id=101 AND tenantid='pg.citya';
+                SELECT nextval('seq_eg_user') INTO new_id;
+                INSERT INTO eg_user (
+                  id, uuid, username, password, pwdexpirydate, mobilenumber,
+                  createddate, lastmodifieddate, createdby, lastmodifiedby,
+                  active, name, gender, type, version, accountlocked, tenantid, locale
+                ) VALUES (
+                  new_id, '${OWNER_UUID}', '${ENC_USER}', src_pwd,
+                  NOW() + interval '5 years', '${ENC_MOBILE}',
+                  NOW(), NOW(), 1, 1, true, '${ENC_NAME}', 1,
+                  'CITIZEN', 0, false, 'pg.karjat', 'en_IN'
+                );
+                INSERT INTO eg_userrole_v1 (role_code, role_tenantid, user_id, user_tenantid, lastmodifieddate)
+                VALUES ('CITIZEN', 'pg.karjat', new_id, 'pg.karjat', NOW());
+              END
+              \$\$;
+              "
+
+              echo "=== Address ==="
+              psql -v ON_ERROR_STOP=1 -c "
+              INSERT INTO eg_pt_address (
+                tenantid, id, propertyid, doorno, street, city, pincode, locality,
+                district, state, country, latitude, longitude,
+                createdby, createdtime, lastmodifiedby, lastmodifiedtime
+              )
+              SELECT
+                'pg.karjat', '${ADDR_ID}', '${PROP_ID}', '12', 'Station Road', 'Karjat', '410201', 'KJT001',
+                'Raigad', 'Maharashtra', 'IN', 18.911600, 73.320900,
+                'karjat-dummy-seed', ${NOW_MS}, 'karjat-dummy-seed', ${NOW_MS}
+              WHERE NOT EXISTS (SELECT 1 FROM eg_pt_address WHERE id='${ADDR_ID}');
+              "
+
+              echo "=== Owner link ==="
+              psql -v ON_ERROR_STOP=1 -c "
+              INSERT INTO eg_pt_owner (
+                ownerinfouuid, tenantid, propertyid, userid, status,
+                isprimaryowner, ownertype, ownershippercentage, relationship,
+                createdby, createdtime, lastmodifiedby, lastmodifiedtime
+              )
+              SELECT
+                '${OWNER_INFO}', 'pg.karjat', '${PROP_ID}', '${OWNER_UUID}', 'ACTIVE',
+                true, 'NONE', '100', 'FATHER',
+                'karjat-dummy-seed', ${NOW_MS}, 'karjat-dummy-seed', ${NOW_MS}
+              WHERE NOT EXISTS (SELECT 1 FROM eg_pt_owner WHERE ownerinfouuid='${OWNER_INFO}');
+              "
+
+              echo "=== Unit ==="
+              psql -v ON_ERROR_STOP=1 -c "
+              INSERT INTO eg_pt_unit (
+                id, tenantid, propertyid, floorno, usagecategory, occupancytype,
+                occupancydate, builtuparea, constructiontype, active,
+                createdby, createdtime, lastmodifiedby, lastmodifiedtime
+              )
+              SELECT
+                '${UNIT_ID}', 'pg.karjat', '${PROP_ID}', 0, 'RESIDENTIAL', 'SELFOCCUPIED',
+                0, 60.00, 'PUCCA', true,
+                'karjat-dummy-seed', ${NOW_MS}, 'karjat-dummy-seed', ${NOW_MS}
+              WHERE NOT EXISTS (SELECT 1 FROM eg_pt_unit WHERE id='${UNIT_ID}');
+              "
+
+              echo "=== Verify ==="
+              psql -c "
+                SELECT p.propertyid,
+                       (SELECT count(*) FROM eg_pt_address a WHERE a.propertyid=p.id) AS addr,
+                       (SELECT count(*) FROM eg_pt_owner o WHERE o.propertyid=p.id) AS owners,
+                       (SELECT count(*) FROM eg_pt_unit u WHERE u.propertyid=p.id) AS units
+                FROM eg_pt_property p WHERE p.id='${PROP_ID}';
+              "
+              echo "DONE"

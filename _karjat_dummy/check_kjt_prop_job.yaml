@@ -1,0 +1,41 @@
+﻿apiVersion: batch/v1
+kind: Job
+metadata:
+  name: check-kjt-prop
+  namespace: egov
+spec:
+  ttlSecondsAfterFinished: 120
+  backoffLimit: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: psql
+        image: postgres:14
+        env:
+        - name: PGUSER
+          valueFrom: {secretKeyRef: {name: db, key: username}}
+        - name: PGPASSWORD
+          valueFrom: {secretKeyRef: {name: db, key: password}}
+        - name: PGHOST
+          value: upyog-postgres-prod.cf6umiugyga4.ap-south-1.rds.amazonaws.com
+        - name: PGPORT
+          value: "9878"
+        - name: PGDATABASE
+          value: main
+        - name: PGSSLMODE
+          value: require
+        command: ["bash","-c"]
+        args:
+        - |
+          set -euo pipefail
+          echo "=== property ==="
+          psql -c "SELECT id, propertyid, tenantid, status, accountid, propertytype FROM eg_pt_property WHERE tenantid='pg.karjat';"
+          echo "=== address ==="
+          psql -c "SELECT * FROM eg_pt_address WHERE tenantid='pg.karjat';"
+          echo "=== owners ==="
+          psql -c "SELECT * FROM eg_pt_owner WHERE tenantid='pg.karjat';"
+          echo "=== units ==="
+          psql -c "SELECT id, propertyid, tenantid FROM eg_pt_unit WHERE propertyid IN (SELECT id FROM eg_pt_property WHERE tenantid='pg.karjat');" 2>/dev/null || psql -c "\d eg_pt_unit"
+          echo "=== compare citya sample ==="
+          psql -c "SELECT p.propertyid, (SELECT count(*) FROM eg_pt_address a WHERE a.propertyid=p.id) AS addr, (SELECT count(*) FROM eg_pt_owner o WHERE o.propertyid=p.id) AS owners FROM eg_pt_property p WHERE p.tenantid='pg.citya' AND p.status='ACTIVE' LIMIT 3;"

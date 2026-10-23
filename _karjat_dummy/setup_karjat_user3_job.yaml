@@ -1,0 +1,36 @@
+﻿apiVersion: batch/v1
+kind: Job
+metadata:
+  name: setup-karjat-user3
+  namespace: egov
+spec:
+  ttlSecondsAfterFinished: 120
+  backoffLimit: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: psql
+        image: postgres:14
+        env:
+        - name: PGUSER
+          valueFrom: {secretKeyRef: {name: db, key: username}}
+        - name: PGPASSWORD
+          valueFrom: {secretKeyRef: {name: db, key: password}}
+        - name: PGHOST
+          value: upyog-postgres-prod.cf6umiugyga4.ap-south-1.rds.amazonaws.com
+        - name: PGPORT
+          value: "9878"
+        - name: PGDATABASE
+          value: main
+        - name: PGSSLMODE
+          value: require
+        command: ["bash","-c"]
+        args:
+        - |
+          set -euo pipefail
+          psql -c "\d eg_hrms_employee"
+          psql -c "\d eg_hrms_assignment"
+          psql -c "\d eg_hrms_jurisdiction"
+          psql -c "SELECT count(*) AS role_count FROM eg_role WHERE tenantid='pg.citya';"
+          psql -c "SELECT code,tenantid FROM eg_role WHERE tenantid='pg.citya' ORDER BY code LIMIT 20;"

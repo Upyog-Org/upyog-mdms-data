@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: setup-karjat-user2
+  namespace: egov
+spec:
+  ttlSecondsAfterFinished: 180
+  backoffLimit: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: psql
+          image: postgres:14
+          env:
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: username
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: password
+            - name: PGHOST
+              value: upyog-postgres-prod.cf6umiugyga4.ap-south-1.rds.amazonaws.com
+            - name: PGPORT
+              value: "9878"
+            - name: PGDATABASE
+              value: main
+            - name: PGSSLMODE
+              value: require
+          command:
+            - bash
+            - -c
+            - |
+              set -euo pipefail
+              echo "=== users matching PT ==="
+              psql -c "SELECT id, username, name, tenantid, type, active FROM eg_user WHERE type='EMPLOYEE' AND tenantid='pg.citya' ORDER BY id DESC LIMIT 30;"
+              echo "=== uuid from login file ==="
+              psql -c "SELECT id, username, name, tenantid, type, active FROM eg_user WHERE uuid='bc6e7ede-0552-4e47-a514-b3f61d785bde';"
+              echo "=== sample roles ==="
+              psql -c "SELECT code, name, tenantid FROM eg_role WHERE tenantid IN ('pg','pg.citya') AND code ILIKE '%PT%' LIMIT 40;"
+              echo "=== eg_userrole_v1 sample ==="
+              psql -c "\d eg_userrole_v1"
+              psql -c "SELECT * FROM eg_userrole_v1 WHERE user_id=101 LIMIT 20;"
+              echo "=== hrms employee sample ==="
+              psql -c "SELECT uuid, code, tenantid, active FROM eg_hrms_employee WHERE tenantid='pg.citya' LIMIT 20;"
+              echo "=== citya localization New Delhi? ==="
+              psql -c "SELECT code, message, module, tenantid FROM message WHERE code IN ('TENANT_TENANTS_PG_CITYA','TENANT_TENANTS_PG_KARJAT') AND locale='en_IN';"

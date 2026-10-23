@@ -1,0 +1,64 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: setup-karjat-user
+  namespace: egov
+spec:
+  ttlSecondsAfterFinished: 180
+  backoffLimit: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: psql
+          image: postgres:14
+          env:
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: username
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: password
+            - name: PGHOST
+              value: upyog-postgres-prod.cf6umiugyga4.ap-south-1.rds.amazonaws.com
+            - name: PGPORT
+              value: "9878"
+            - name: PGDATABASE
+              value: main
+            - name: PGSSLMODE
+              value: require
+          command:
+            - bash
+            - -c
+            - |
+              set -euo pipefail
+
+              echo "=== localization sample for tenants ==="
+              psql -c "SELECT code, message, module, locale, tenantid FROM message WHERE code ILIKE 'TENANT_TENANTS_PG%' ORDER BY code LIMIT 20;"
+
+              echo "=== PTOFFICER1 user ==="
+              psql -c "SELECT id, uuid, username, tenantid, type, active, length(password) AS pwdlen FROM eg_user WHERE lower(username)=lower('PTOFFICER1');"
+
+              echo "=== PTOFFICER1 roles ==="
+              psql -c "
+                SELECT ur.role_code, ur.role_tenantid, ur.user_tenantid
+                FROM eg_userrole_v1 ur
+                JOIN eg_user u ON u.id = ur.user_id
+                WHERE lower(u.username)=lower('PTOFFICER1');
+              " 2>/dev/null || psql -c "\d eg_userrole_v1"
+
+              echo "=== roles available for PT in citya / pg ==="
+              psql -c "SELECT code, name, tenantid FROM eg_role WHERE code IN ('EMPLOYEE','PT_CEMP','PT_APPROVER','PT_DOC_VERIFIER','PT_FIELD_INSPECTOR','PT_COLLECTION_EMP') AND tenantid IN ('pg','pg.citya','pg.karjat') ORDER BY tenantid, code;"
+
+              echo "=== message table cols ==="
+              psql -c "\d message"
+
+              echo "=== eg_user cols ==="
+              psql -c "\d eg_user" | head -80
+
+              echo "=== hrms tables ==="
+              psql -c "\dt eg_hrms*"

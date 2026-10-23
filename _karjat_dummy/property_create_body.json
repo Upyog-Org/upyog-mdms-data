@@ -1,0 +1,76 @@
+{
+  "RequestInfo": {
+    "apiId": "Rainmaker",
+    "ver": ".01",
+    "ts": "",
+    "action": "_create",
+    "did": "1",
+    "key": "",
+    "msgId": "20261015170000|en_IN",
+    "authToken": "{{token}}"
+  },
+  "Property": {
+    "tenantId": "pg.karjat",
+    "accountId": null,
+    "oldPropertyId": "KJT-DUMMY-0001",
+    "status": "ACTIVE",
+    "address": {
+      "tenantId": "pg.karjat",
+      "doorNo": "12",
+      "city": "Karjat",
+      "pincode": "410201",
+      "street": "Station Road",
+      "locality": {
+        "code": "KJT001",
+        "name": "Station Road Area",
+        "label": "Locality",
+        "area": "Area1"
+      },
+      "geoLocation": {
+        "latitude": 18.9116,
+        "longitude": 73.3209
+      }
+    },
+    "propertyType": "BUILTUP.INDEPENDENTPROPERTY",
+    "ownershipCategory": "INDIVIDUAL.SINGLEOWNER",
+    "owners": [
+      {
+        "name": "Dummy Owner Karjat",
+        "gender": "MALE",
+        "mobileNumber": "9999900001",
+        "emailId": "dummy.karjat@example.com",
+        "fatherOrHusbandName": "NA",
+        "relationship": "FATHER",
+        "ownerType": "NONE",
+        "permanentAddress": "12, Station Road, Karjat",
+        "correspondenceAddress": "12, Station Road, Karjat",
+        "isPrimaryOwner": true,
+        "ownerShipPercentage": 100,
+        "status": "ACTIVE"
+      }
+    ],
+    "creationReason": "CREATE",
+    "usageCategory": "RESIDENTIAL",
+    "noOfFloors": 1,
+    "landArea": 100,
+    "superBuiltUpArea": 60,
+    "source": "MUNICIPAL_RECORDS",
+    "channel": "EMPLOYEE",
+    "units": [
+      {
+        "floorNo": 0,
+        "usageCategory": "RESIDENTIAL",
+        "occupancyType": "SELFOCCUPIED",
+        "active": true,
+        "constructionDetail": {
+          "builtUpArea": 60,
+          "constructionType": "PUCCA"
+        }
+      }
+    ],
+    "additionalDetails": {
+      "seedTag": "karjat-dummy",
+      "note": "DUMMY DATA - not real citizen/property"
+    }
+  }
+}
