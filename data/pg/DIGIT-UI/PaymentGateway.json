@@ -3,12 +3,16 @@
     "moduleName": "DIGIT-UI",
     "PaymentGateway": [
         {
-            "gateway": "PAYGOV",
+            "gateway": "RAZORPAY",
             "active": true
         },
         {
+            "gateway": "PAYGOV",
+            "active": false
+        },
+        {
             "gateway": "NTTDATA",
-            "active": true
+            "active": false
         }
     ]
 }
